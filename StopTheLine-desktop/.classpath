@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="assets"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/StopTheLine"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/skm/Downloads/libgdx-0.9.8 (1)/gdx-backend-lwjgl.jar" sourcepath="libs/gdx-backend-lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/skm/Downloads/libgdx-0.9.8 (1)/gdx-backend-lwjgl-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Users/skm/Downloads/libgdx-0.9.8 (1)/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Users/skm/Downloads/libgdx-0.9.8 (1)/gdx.jar" sourcepath="/StopTheLine/libs/gdx-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
