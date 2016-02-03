@@ -3,14 +3,17 @@ package com.skm.stl;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
-public class MenuScreen implements Screen {
+public class MenuScreen implements Screen{
 	SpriteBatch batch = new SpriteBatch();
+	
 	Vector3 touchPoint = new Vector3();
 
 	OrthographicCamera cam;
@@ -18,6 +21,13 @@ public class MenuScreen implements Screen {
 	Game game;
 	
 	GameType gameType = GameType.Classic;
+	private static String titreBoiteDialogueRegister = "Inscription"; 
+	private static String texteInitialRegister = "votre NICKNAME"; 
+	private static String titreBoiteDialogueLogin = "Se connecter"; 
+	private static String texteInitialLogin = "votre NICKNAME"; 	
+	private String message = "Pour jouer, veuillez se connecter";
+	private String message2 = "ou inscrivez-vous";
+	User us;
 	
 	public MenuScreen(Game game) {
 		this.game = game;
@@ -27,6 +37,7 @@ public class MenuScreen implements Screen {
 		
 		mm_sprite = new Sprite(Assets.mainScreen);
 		mm_sprite.setPosition(0, 0);
+		gameType = GameType.Classic;
 		// width and height are automatic...
 	}
 
@@ -43,12 +54,53 @@ public class MenuScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
+		
+	     Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+         
 		if (touched(Assets.mainScreenMode1)){
-			gameType = GameType.Classic;
+				  Gdx.input.getTextInput(new TextInputListener() {
+					
+	                  @Override
+	                  public void input(String texteSaisi) {
+	                	  us = new User();
+	                	  us.setName(texteSaisi);
+	                	  boolean exitUser = UsersManger.existUser(us);
+	                	  if(exitUser){
+			                  message = "Bonjour, <"+texteSaisi+"> !";
+			                  message2 = "Vous êtes connecté !";
+	                	  }
+	                	  else{
+			                  message = "Utilisateur <"+texteSaisi+"> n'existe pas!";
+			                  message2 = "Veuillez réessayez !";	                		  
+	                	  }
+	                  }
+	                 
+	                  @Override
+	                  public void canceled() {
+
+	                  }
+	           }, titreBoiteDialogueLogin, texteInitialLogin);
 		}
 
 		if (touched(Assets.mainScreenMode2)){
-			gameType = GameType.EasyFives;
+			  Gdx.input.getTextInput(new TextInputListener() {
+				
+                  @Override
+                  public void input(String texteSaisi) {
+                	  us = new User();
+                	  us.setName(texteSaisi);
+                	  UsersManger.addUser(us);
+                	  
+	                  message = "Bonjour, <"+texteSaisi+"> !";
+	                  message2 = "vous êtes bien inscrit !";
+                  }
+                 
+                  @Override
+                  public void canceled() {
+
+                  }
+           }, titreBoiteDialogueRegister, texteInitialRegister);
 		}
 
 		if (touched(Assets.mainScreenMode3)){
@@ -74,11 +126,12 @@ public class MenuScreen implements Screen {
 		
 		batch.draw(mm_sprite, 0, 0);
 
-		String typeName1 = gameType.title();
-		String typeName2 = gameType.description();
+		//String typeName1 = gameType.title();
+		//String typeName2 = gameType.description();
+		Assets.font.setScale(0.45F, 0.45F);
+		Assets.font.draw(batch, message, 410, 420);
+		Assets.font.draw(batch, message2, 410, 360);
 		
-		Assets.font.draw(batch, typeName1, 410, 420);
-		Assets.font.draw(batch, typeName2, 410, 360);
 
 		//mm_sprite.draw(batch);
 		
@@ -120,4 +173,6 @@ public class MenuScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 }
