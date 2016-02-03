@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Input.Keys;
 
 public class Assets {
-	public static TextureRegion gameScreen, mainScreen, block, overScreen, pauseScreen;
+	public static TextureRegion gameScreen, mainScreen,mainScreenLogged, block, overScreen, pauseScreen;
 	
 	// These rectangles are relative to the BG (and so will need adjusted if the camera is not 1:1 with it)
 	public static Rectangle mainScreenStart, mainScreenMode1, mainScreenMode2, mainScreenMode3, mainScreenTest;
@@ -25,7 +25,7 @@ public class Assets {
 	
 	public static BitmapFont font;
 	
-	public static Color color1, color2, color1a, color1b;
+	public static Color color1, color2, color1a, color1b, color3;
 	
 	private static Map<Rectangle, int[]> keyDongles = new HashMap<Rectangle, int[]>();
 	
@@ -52,7 +52,7 @@ public class Assets {
 		color2 = rgb(198,120,55);
 		color1a = rgb(13,38,95);
 		color1b = rgb(4,113,4);
-		
+		color3 = rgb(182,233,246);
 		Texture texture;
 		
 		texture = new Texture(Gdx.files.internal("data/game-screen.png"));
@@ -80,10 +80,20 @@ public class Assets {
 		gameScreenPreview = grid_r(510, 390, 95, 95, 5, 5);
 		gameScreenPreview2 = grid_r(610, 417, 74, 74, 5, 5);
 		
-		texture = new Texture(Gdx.files.internal("data/main-screen.png"));
+		texture = new Texture(Gdx.files.internal("data/main-screen2.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
-		mainScreen = new TextureRegion(texture, 0, 0, 800, 480);
+		mainScreen = new TextureRegion(texture, 0, 10, 800, 480);
+		mainScreenStart = new Rectangle(581, 34, 164, 84);
+		mainScreenMode1 = new Rectangle(128, 337, 250, 122);
+		mainScreenMode2 = new Rectangle(128, 205, 250, 122);
+		mainScreenMode3 = new Rectangle(128, 71, 250, 122);
+		mainScreenTest = button_r(280, 43, 112, 52);
+		
+		texture = new Texture(Gdx.files.internal("data/main-screen3.png"));
+		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		mainScreenLogged = new TextureRegion(texture, 0, 10, 800, 480);
 		mainScreenStart = new Rectangle(581, 34, 164, 84);
 		mainScreenMode1 = new Rectangle(128, 337, 250, 122);
 		mainScreenMode2 = new Rectangle(128, 205, 250, 122);

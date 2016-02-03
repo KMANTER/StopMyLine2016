@@ -17,7 +17,7 @@ public class MenuScreen implements Screen{
 	Vector3 touchPoint = new Vector3();
 
 	OrthographicCamera cam;
-	Sprite mm_sprite;
+	Sprite mm_sprite,ms_logged_sprite;
 	Game game;
 	
 	GameType gameType = GameType.Classic;
@@ -27,6 +27,7 @@ public class MenuScreen implements Screen{
 	private static String texteInitialLogin = "votre NICKNAME"; 	
 	private String message = "Pour jouer, veuillez se connecter";
 	private String message2 = "ou inscrivez-vous";
+	private String errorMsg = "";
 	User us;
 	
 	public MenuScreen(Game game) {
@@ -37,6 +38,10 @@ public class MenuScreen implements Screen{
 		
 		mm_sprite = new Sprite(Assets.mainScreen);
 		mm_sprite.setPosition(0, 0);
+		
+		ms_logged_sprite = new Sprite(Assets.mainScreenLogged);
+		mm_sprite.setPosition(0, 0);
+		
 		gameType = GameType.Classic;
 		// width and height are automatic...
 	}
@@ -60,19 +65,19 @@ public class MenuScreen implements Screen{
          
 		if (touched(Assets.mainScreenMode1)){
 				  Gdx.input.getTextInput(new TextInputListener() {
-					
 	                  @Override
 	                  public void input(String texteSaisi) {
+	                	  errorMsg = "";
 	                	  us = new User();
 	                	  us.setName(texteSaisi);
 	                	  boolean exitUser = UsersManger.existUser(us);
 	                	  if(exitUser){
-			                  message = "Bonjour, <"+texteSaisi+"> !";
-			                  message2 = "Vous êtes connecté !";
+			                  SessionsManager.setSession(us);
 	                	  }
 	                	  else{
-			                  message = "Utilisateur <"+texteSaisi+"> n'existe pas!";
-			                  message2 = "Veuillez réessayez !";	                		  
+
+	                		   errorMsg = "Utilisateur <"+texteSaisi+"> n'existe pas!";
+	                		   SessionsManager.cleanSession();
 	                	  }
 	                  }
 	                 
@@ -88,12 +93,11 @@ public class MenuScreen implements Screen{
 				
                   @Override
                   public void input(String texteSaisi) {
+                	  errorMsg = "";
                 	  us = new User();
                 	  us.setName(texteSaisi);
                 	  UsersManger.addUser(us);
-                	  
-	                  message = "Bonjour, <"+texteSaisi+"> !";
-	                  message2 = "vous êtes bien inscrit !";
+	                  SessionsManager.setSession(us);
                   }
                  
                   @Override
@@ -122,15 +126,30 @@ public class MenuScreen implements Screen{
 		
 		batch.begin();
 		
-		batch.setColor(Assets.color2);
+		batch.setColor(Assets.color3);
 		
-		batch.draw(mm_sprite, 0, 0);
-
-		//String typeName1 = gameType.title();
-		//String typeName2 = gameType.description();
+		
+		if(SessionsManager.isConnected()){
+			User currUsr = SessionsManager.getCurrSession();
+            message = "Bonjour, <"+currUsr.getName()+"> !";
+            message2 = "Vous êtes connecté !";
+            batch.draw(mm_sprite, 0, 0);
+		}
+			
+		else
+			batch.draw(ms_logged_sprite, 0, 0);
+			
+		
 		Assets.font.setScale(0.45F, 0.45F);
-		Assets.font.draw(batch, message, 410, 420);
-		Assets.font.draw(batch, message2, 410, 360);
+
+		if(errorMsg != ""){
+			Assets.font.draw(batch, errorMsg, 410, 420);
+		}
+		else{
+			Assets.font.draw(batch, message, 410, 420);
+			Assets.font.draw(batch, message2, 410, 360);			
+		}
+
 		
 
 		//mm_sprite.draw(batch);
