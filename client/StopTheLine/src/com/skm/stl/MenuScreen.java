@@ -22,9 +22,9 @@ public class MenuScreen implements Screen{
 	
 	GameType gameType = GameType.Classic;
 	private static String titreBoiteDialogueRegister = "Inscription"; 
-	private static String texteInitialRegister = "votre NICKNAME"; 
+	private static String texteInitialRegister = "NICKNAME"; 
 	private static String titreBoiteDialogueLogin = "Se connecter"; 
-	private static String texteInitialLogin = "votre NICKNAME"; 	
+	private static String texteInitialLogin = "NICKNAME"; 	
 	private String message = "Pour jouer, veuillez se connecter";
 	private String message2 = "ou inscrivez-vous";
 	private String errorMsg = "";
@@ -42,8 +42,7 @@ public class MenuScreen implements Screen{
 		ms_logged_sprite = new Sprite(Assets.mainScreenLogged);
 		mm_sprite.setPosition(0, 0);
 		
-		gameType = GameType.Classic;
-		// width and height are automatic...
+		gameType = GameType.StopMyLineType;
 	}
 
 	boolean touched(com.badlogic.gdx.math.Rectangle r){
@@ -107,18 +106,18 @@ public class MenuScreen implements Screen{
            }, titreBoiteDialogueRegister, texteInitialRegister);
 		}
 
-		if (touched(Assets.mainScreenMode3)){
-			gameType = GameType.ThreesAndFives;
-		}
-
 		if (touched(Assets.mainScreenStart)){
 			game.setScreen(new GameScreen(game, gameType));
+		}
+/*		
+		if (touched(Assets.mainScreenMode3)){
+			gameType = GameType.ThreesAndFives;
 		}
 
 		if (touched(Assets.mainScreenTest)){
 			gameType = GameType.Test;
 		}
-
+*/
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
@@ -132,7 +131,7 @@ public class MenuScreen implements Screen{
 		if(SessionsManager.isConnected()){
 			User currUsr = SessionsManager.getCurrSession();
             message = "Bonjour, <"+currUsr.getName()+"> !";
-            message2 = "Vous êtes connecté !";
+            message2 = "VOUS ETES CONNECTE !";
             batch.draw(mm_sprite, 0, 0);
 		}
 			

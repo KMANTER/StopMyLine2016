@@ -3,7 +3,7 @@ package com.skm.stl;
 import com.skm.stl.GameScreen.PieceFactory;
 
 public class GameType {
-	public static GameType EasyFives, ThreesAndFives, Test, Classic;
+	public static GameType EasyFives, ThreesAndFives, Test, Classic, StopMyLineType;
 	
 	static {
 		EasyFives = new GameType(new FactoryRing(
@@ -29,6 +29,12 @@ public class GameType {
 						new PieceBagFactory(Assets.fours),
 						new PieceBagFactory(Assets.fours)}), 
 						"Threes & Fours.", "Easy, right?");
+		
+		
+		StopMyLineType = new GameType(new FactoryRing(
+				new PieceFactory[]{
+						new PieceBagFactory(Assets.stopMyLinePieces)
+				}),"Specific game type","Stop My Line  game type");
 	}
 	
 	String title, description;

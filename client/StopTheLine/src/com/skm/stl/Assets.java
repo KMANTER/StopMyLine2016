@@ -16,7 +16,6 @@ import com.badlogic.gdx.Input.Keys;
 public class Assets {
 	public static TextureRegion gameScreen, mainScreen,mainScreenLogged, block, overScreen, pauseScreen;
 	
-	// These rectangles are relative to the BG (and so will need adjusted if the camera is not 1:1 with it)
 	public static Rectangle mainScreenStart, mainScreenMode1, mainScreenMode2, mainScreenMode3, mainScreenTest;
 	
 	public static Rectangle gameScreenPreview, gameScreenPreview2, gameScreenGrid;
@@ -37,7 +36,6 @@ public class Assets {
 		return new Color(c.r / 255f, c.g / 255f, c.b / 255f, 1.0f);
 	}
 	
-	// So I don't have to think when copying these from Inkscape
 	static Rectangle grid_r(float x, float y, float w, float h, float blocks_wide, float blocks_high){
 		return new Rectangle(x + 3, y - 32 + 3, (w - 6) / blocks_wide, (h - 6) / blocks_high);
 	}
@@ -47,7 +45,6 @@ public class Assets {
 	}
 	
 	public static void load(){
-		// http://colorschemedesigner.com/#3i61TuRhNw0w0
 		color1 = rgb(47,170,170);
 		color2 = rgb(198,120,55);
 		color1a = rgb(13,38,95);
@@ -123,14 +120,11 @@ public class Assets {
 		         Gdx.files.internal("data/ubuntu-mono-48.png"), false);
 	}
 
-	// hack hack hack...
 	static HashSet<Integer> currentlyPressed = new HashSet<Integer>();
-	// hack hack hack hack hack..
 	public static void clearKeyDongles(){
 		currentlyPressed = new HashSet<Integer>();
 	}
 	
-	// Doesn't belong in assets - more like a "platform" file or something
 	public static boolean isKeyDonglePressed(Rectangle r){
 		if(!keyDongles.containsKey(r))
 			return false;
@@ -282,6 +276,44 @@ public class Assets {
 			{O,X,X},
 			{O,O,X}}
 		};
+		
+		public static boolean[][][] stopMyLinePieces = new boolean[][][]{
+			{{O,X,O,O},
+			 {O,X,O,O},
+			 {O,X,O,O},
+			 {O,X,O,O}},
+			
+			{{O,X,O},
+			 {O,X,O},
+			 {O,X,X}},
+			
+			{{O,X,O,O},
+			 {O,X,O,O},
+			 {O,X,O,O},
+			 {X,X,O,O}},
+			
+			{{O,O,O,O},
+			 {O,O,O,O},
+			 {O,X,X,O},
+			 {X,X,O,O}},
+			
+			{{O,O,O,O},
+			 {O,O,O,O},
+			 {O,X,X,O},
+			 {O,O,X,X}},
+			
+			{{O,O,O,O},
+			 {O,O,O,O},
+			 {O,X,X,O},
+	   		 {O,X,X,O}},
+			
+			{{O,O,O,O},
+	   	     {O,O,O,O},
+			 {O,O,X,O},
+			 {O,X,X,X}}
+
+		};
+		
 	
 	static boolean[] b3 = {O,O,O};
 	static boolean[] b4 = {O,O,O,O};
@@ -296,4 +328,5 @@ public class Assets {
 		{{O,O,O,X}, {O,X,X,O}, {O,X,O,O}, b4},
 		{b4, {O,X,O,O}, {O,X,X,O}, {O,O,O,X}}
 	};
+	
 }
