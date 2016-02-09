@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Matrix4;
 
 public class GameScreen implements Screen {
+	int iteration = 0;
 	// Graphics constants
 	final int BLOCK_SIZE = 18;
 	
@@ -284,6 +285,10 @@ public class GameScreen implements Screen {
 		state.update(delta);
 		
 		batch.end();
+		
+		iteration++;
+		if(iteration == 1500)
+			addRow();
 	}
 	
 	boolean[][] nextPiece;
@@ -351,6 +356,17 @@ public class GameScreen implements Screen {
 
 		score += rowsCleared * rowsCleared * 10;
 	}
+	void addRow(){
+		
+		boolean[] tmp;
+		for(int i= GRID_HEIGHT-1; i>0; i-- ){
+			tmp = grid[i-1];
+			grid[i] = tmp;
+		}
+		for(int i = 0; i<GRID_WIDTH-1 ; i++){
+			grid[0][i] = true;
+		}
+	}
 
 	boolean collidesWithGridOrWall(boolean[][] p, int p_x, int p_y){
 		// i is p row, j is p column
@@ -372,7 +388,7 @@ public class GameScreen implements Screen {
 	}
 	
 	void drawGame(){
-		batch.setColor(Assets.color2);
+		batch.setColor(Assets.color3);
 		batch.draw(mm_sprite,  0,  0);
 
 		// calls setColor. Need to disentangle this eventually.
