@@ -20,5 +20,5 @@ dependencies {
 }
 
 springBoot {
-    mainClass = 'StopMyLineApplication'
+    mainClass = 'com.github.skmjbfd.stopmyline.StopMyLineApplication'
 }
