@@ -7,11 +7,14 @@ import java.util.HashMap;
  */
 public class TetrisGame {
 
+    public enum Status {Waiting, Active, Finished}
+
     public int maxPlayer;
     public String gameName;
     public HashMap<User, Boolean> playerList;
     public int rows;
     public int columns;
+    public Status status;
 
     public TetrisGame(String name, int maxPlayer, int nbRows, int nbCols){
         this.gameName = name;
@@ -19,6 +22,7 @@ public class TetrisGame {
         this.playerList = new HashMap<>();
         this.rows = nbRows;
         this.columns = nbCols;
+        this.status = Status.Waiting;
     }
 
     public boolean isFull(){
@@ -32,7 +36,7 @@ public class TetrisGame {
             playerList.put(player, false);
             return true;
         }
-        return false;
+        throw new FullGameException("There's no room left in this game");
     }
 
     public int playersInGame(){

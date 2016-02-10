@@ -46,13 +46,14 @@ public class StopMyLineApplication extends WebMvcConfigurerAdapter {
         homeMessage.addOperation("/connect/{name}", "Connect to the server as {name}");
         homeMessage.addOperation("/users/{name}", "Get self as {name}");
         homeMessage.addOperation("/users/{name}/game", "Game as {name}");
+        homeMessage.addOperation(DB_PATH, "Absolute path");
         return homeMessage;
     }
 
     /** Connect a new user on the server */
-    @RequestMapping("/connect/{name}")
+    @RequestMapping("/user/create/{name}")
     @ResponseBody
-    public User connect(@PathVariable final String name) throws IOException {
+    public User register(@PathVariable final String name) throws IOException {
         Logger.getLogger(LOGGER_NAME).info("connect(): " + name);
 
         User user = gameHandler.generateNewUser(name);
@@ -61,9 +62,9 @@ public class StopMyLineApplication extends WebMvcConfigurerAdapter {
     }
 
     /** Return the user's data after updating his stats */
-    @RequestMapping("/users/{name}")
+    @RequestMapping("/user/{name}")
     @ResponseBody
-    public User user(@PathVariable final String name) throws IOException {
+    public User connect(@PathVariable final String name) throws IOException {
         Logger.getLogger(LOGGER_NAME).info("user(): " + name);
 
         User user = gameHandler.findUser(name);
@@ -71,17 +72,45 @@ public class StopMyLineApplication extends WebMvcConfigurerAdapter {
         return user;
     }
 
-    @RequestMapping("/users/{name}/game")
+    @RequestMapping("/game/create")
     @ResponseBody
-    public void userGame(@PathVariable final String name) throws IOException {
-        Logger.getLogger(LOGGER_NAME).info("userGame(): " + name);
-
-        User user = gameHandler.findUser(name); // Retrieve user
+    public TetrisGame createGame() throws IOException {
         try{
-            TetrisGame game = gameHandler.findGame(user);
+            TetrisGame game = gameHandler.createGame();
             Logger.getLogger(LOGGER_NAME).info("game Found : " + game.gameName);
+            return game;
         }catch(NoGameAvailableException e){
             Logger.getLogger(e.getMessage());
+            return null;
+        }
+    }
+
+    @RequestMapping("/game/check")
+    @ResponseBody
+    public List<TetrisGame> checkGame() throws IOException {
+        try{
+            List<TetrisGame> games = gameHandler.findGame();
+
+            return game;
+        }catch(NoGameAvailableException e){
+            Logger.getLogger(e.getMessage());
+            return null;
+        }
+    }
+
+    @RequestMapping("/game/{gname}/user/{uname}")
+    @ResponseBody
+    public TetrisGame joinGame(@PathVariable final String gname, @PathVariable final String uname) throws IOException {
+        try{
+            TetrisGame game = gameHandler.getGame(gname);
+            User player = gameHandler.findUser(uname);
+
+            gameHandler.joinGame(player, game);
+
+            return game;
+        }catch(NoGameAvailableException e){
+            Logger.getLogger(e.getMessage());
+            return null;
         }
     }
 

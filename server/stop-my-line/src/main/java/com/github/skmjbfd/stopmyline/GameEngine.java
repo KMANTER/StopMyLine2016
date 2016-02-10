@@ -52,10 +52,9 @@ public class GameEngine {
         gameList = new ArrayList<>();
         saveFile = new File(dbPath);
         load();
-
     }
 
-    public TetrisGame generateNewGame(){
+    public TetrisGame createGame(){
         String name = new BigInteger(130, random).toString(32).replace(" ", "").toString();
         TetrisGame game = new TetrisGame(name, 4, 18, 9);
         gameList.add(game);
@@ -94,19 +93,37 @@ public class GameEngine {
         return null;
     }
 
-    /**
-     * Match-making algorithm
-     */
-    public TetrisGame findGame(User user) throws NoGameAvailableException {
+    public List<TetrisGame> findGame() throws NoGameAvailableException {
         // Find the first game where the player can play (Game not full)
-
+        List<TetrisGame> gameAvailable = new ArrayList<TetrisGame>()
         for(TetrisGame tg : gameList){
             if(!tg.isFull()){
-                tg.addPlayerToGame(user);
-                return tg;
+                gameAvailable.add(tg);
             }
         }
-        throw new NoGameAvailableException("There's currently no game available. Create a new one and play with your friends !");
+
+        if(gameAvailable.size == 0) throw new NoGameAvailableException("There's currently no game available. Create a new one and play with your friends !");
+
+        return gameAvailable;
+    }
+
+    public TetrisGame getGame(String name){
+        for(TetrisGame tg : gameList){
+            if(tg.name.equals(name)) return tg;
+        }
+
+        throw new NoGameAvailableException("No game found");
+    }
+
+
+    public void joinGame(User player, TetrisGame game){
+        if(!game.isFull()){
+            try{
+                game.addPlayerToGame(player)
+            }catch (FullGameException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public void load() {
@@ -116,6 +133,7 @@ public class GameEngine {
             Type listType = new TypeToken<ArrayList<User>>(){}.getType();
             userList = new Gson().fromJson(s, listType);
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
