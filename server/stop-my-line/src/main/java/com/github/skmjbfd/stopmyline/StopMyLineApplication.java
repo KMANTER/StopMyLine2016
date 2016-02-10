@@ -5,11 +5,13 @@ import com.github.skmjbfd.stopmyline.model.HomeMessage;
 import com.github.skmjbfd.stopmyline.model.TetrisGame;
 import com.github.skmjbfd.stopmyline.model.User;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
@@ -19,11 +21,20 @@ import java.util.logging.Logger;
 /**
  * Created by Jbay on 04/02/2016.
  */
+
+@SpringBootApplication
+@RestController
 public class StopMyLineApplication extends WebMvcConfigurerAdapter {
 
     private static String DB_PATH = System.getProperty("java.io.tmpdir") + "stopmyline_" + System.currentTimeMillis() + ".json";
     private static GameEngine gameHandler = new GameEngine(DB_PATH);
     private final String LOGGER_NAME = "Stop My Line";
+
+
+    public static void main(String[] args) {
+        SpringApplication.run(StopMyLineApplication.class, args);
+        Logger.getAnonymousLogger().info("SERVER LAUNCHED");
+    }
 
     /** This method is called when accessing the API root, display usage */
     @RequestMapping("/")
@@ -72,11 +83,6 @@ public class StopMyLineApplication extends WebMvcConfigurerAdapter {
         }catch(NoGameAvailableException e){
             Logger.getLogger(e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(StopMyLineApplication.class, args);
-        Logger.getAnonymousLogger().info("SERVER LAUNCHED");
     }
 
     @Override

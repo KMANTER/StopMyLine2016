@@ -1,1 +1,1 @@
-./server/gradlew bootRun -p ./server
+./server/gradlew bootRun -stacktrace -p ./server
