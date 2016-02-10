@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/skm/Downloads/libgdx-0.9.8 (1)/gdx.jar" sourcepath="libs/gdx-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/httpClientLibApache"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/gwt"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

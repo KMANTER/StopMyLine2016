@@ -1,5 +1,7 @@
 package com.skm.stl;
 
+import java.util.Arrays;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -91,6 +93,8 @@ public class GameScreen implements Screen {
 		
 		block_sprite = new Sprite(Assets.block);
 		block_sprite.setPosition(0, 0);
+		
+
 	}
 
 	// At some point this will pause, allow user to see score, give info, etc.
@@ -286,9 +290,9 @@ public class GameScreen implements Screen {
 		
 		batch.end();
 		
-		iteration++;
-		if(iteration == 1500)
-			addRow();
+//		iteration++;
+//		if(iteration == 1500)
+//			addRow();
 	}
 	
 	boolean[][] nextPiece;
@@ -360,8 +364,8 @@ public class GameScreen implements Screen {
 		
 		boolean[] tmp;
 		for(int i= GRID_HEIGHT-1; i>0; i-- ){
-			tmp = grid[i-1];
-			grid[i] = tmp;
+			grid[i] = Arrays.copyOf(grid[i-1], (GRID_WIDTH));
+
 		}
 		for(int i = 0; i<GRID_WIDTH-1 ; i++){
 			grid[0][i] = true;

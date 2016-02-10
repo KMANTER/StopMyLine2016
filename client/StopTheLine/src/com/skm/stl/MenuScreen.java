@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 public class MenuScreen implements Screen{
+	  HttpCommunicationMngr requestManager;
+
 	SpriteBatch batch = new SpriteBatch();
 	
 	Vector3 touchPoint = new Vector3();
@@ -43,6 +45,9 @@ public class MenuScreen implements Screen{
 		mm_sprite.setPosition(0, 0);
 		
 		gameType = GameType.StopMyLineType;
+		
+		requestManager = new HttpCommunicationMngr();
+
 	}
 
 	boolean touched(com.badlogic.gdx.math.Rectangle r){
@@ -69,8 +74,9 @@ public class MenuScreen implements Screen{
 	                	  errorMsg = "";
 	                	  us = new User();
 	                	  us.setName(texteSaisi);
-	                	  boolean exitUser = UsersManger.existUser(us);
-	                	  if(exitUser){
+	                	  User existUser = requestManager.Connect(us);
+	                	  
+	                	  if(existUser != null){
 			                  SessionsManager.setSession(us);
 	                	  }
 	                	  else{
@@ -95,8 +101,18 @@ public class MenuScreen implements Screen{
                 	  errorMsg = "";
                 	  us = new User();
                 	  us.setName(texteSaisi);
-                	  UsersManger.addUser(us);
-	                  SessionsManager.setSession(us);
+                	  requestManager.register(us);
+                	  
+                	  User registredUser = requestManager.Connect(us);
+                	  
+                	  if(registredUser != null){
+		                  SessionsManager.setSession(us);
+                	  }
+                	  else{
+
+                		   errorMsg = "probleme lors de l inscription !";
+                		   SessionsManager.cleanSession();
+                	  }
                   }
                  
                   @Override
@@ -109,15 +125,7 @@ public class MenuScreen implements Screen{
 		if (touched(Assets.mainScreenStart)){
 			game.setScreen(new GameScreen(game, gameType));
 		}
-/*		
-		if (touched(Assets.mainScreenMode3)){
-			gameType = GameType.ThreesAndFives;
-		}
 
-		if (touched(Assets.mainScreenTest)){
-			gameType = GameType.Test;
-		}
-*/
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
