@@ -1,6 +1,7 @@
 package com.github.skmjbfd.stopmyline.model;
 
 import java.util.HashMap;
+import com.github.skmjbfd.stopmyline.exceptions.FullGameException;
 
 /**
  * Created by Jbay on 03/02/2016.
@@ -31,7 +32,7 @@ public class TetrisGame {
     }
 
     // Add the player to the game. Return false if it couldn't.
-    public boolean addPlayerToGame(User player){
+    public boolean addPlayerToGame(User player) throws FullGameException{
         if(!this.isFull()){
             playerList.put(player, false);
             return true;

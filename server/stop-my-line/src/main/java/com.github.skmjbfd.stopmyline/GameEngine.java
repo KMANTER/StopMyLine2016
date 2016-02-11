@@ -19,6 +19,7 @@ package com.github.skmjbfd.stopmyline;
 import com.github.skmjbfd.stopmyline.model.User;
 import com.github.skmjbfd.stopmyline.model.TetrisGame;
 import com.github.skmjbfd.stopmyline.exceptions.NoGameAvailableException;
+import com.github.skmjbfd.stopmyline.exceptions.FullGameException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -58,15 +59,21 @@ public class GameEngine {
         String name = new BigInteger(130, random).toString(32).replace(" ", "").toString();
         TetrisGame game = new TetrisGame(name, 4, 18, 9);
         gameList.add(game);
+        this.save();
         return game;
     }
 
     public User generateNewUser(String name) {
-        User user = new User();
-        user.name = getFreeName(name);
-        user.token = new BigInteger(130, random).toString(32).replace(" ", "");
-        user.lastUpdateTime = System.currentTimeMillis();
+        String token = new BigInteger(130, random).toString(32).replace(" ", "");
+        System.out.println("token ok");
+        String pname =this.getFreeName(name);
+        System.out.println("name ok");
+        User user = new User(pname, token);
+        System.out.println("user ok");
         userList.add(user);
+        System.out.println("user added");
+        this.save();
+        System.out.println("save");
         return user;
     }
 
@@ -78,8 +85,12 @@ public class GameEngine {
     }
 
     private boolean userAlreadyExists(String name) {
-        for(User u : userList){
-            if(u.name.equals(name)) return false;
+        if(userList.size() > 0) {
+            for (User u : userList) {
+                if (u.name.equals(name)) return false;
+            }
+        }else{
+            return false;
         }
 
         return true;
@@ -95,21 +106,25 @@ public class GameEngine {
 
     public List<TetrisGame> findGame() throws NoGameAvailableException {
         // Find the first game where the player can play (Game not full)
-        List<TetrisGame> gameAvailable = new ArrayList<TetrisGame>()
+        List<TetrisGame> gameAvailable = new ArrayList<TetrisGame>();
         for(TetrisGame tg : gameList){
             if(!tg.isFull()){
                 gameAvailable.add(tg);
             }
         }
 
-        if(gameAvailable.size == 0) throw new NoGameAvailableException("There's currently no game available. Create a new one and play with your friends !");
+        if(gameAvailable.size() == 0) {
+            throw new NoGameAvailableException("There's currently no game available. Create a new one and play with your friends !");
+        }
 
         return gameAvailable;
     }
 
-    public TetrisGame getGame(String name){
+    public TetrisGame getGame(String name) throws NoGameAvailableException{
         for(TetrisGame tg : gameList){
-            if(tg.name.equals(name)) return tg;
+            if(tg.gameName.equals(name)) {
+                return tg;
+            }
         }
 
         throw new NoGameAvailableException("No game found");
@@ -119,7 +134,11 @@ public class GameEngine {
     public void joinGame(User player, TetrisGame game){
         if(!game.isFull()){
             try{
-                game.addPlayerToGame(player)
+                if(game.playerList.)
+                game.addPlayerToGame(player);
+                if(game.isFull()){
+                    game.status = game.Status.Active;
+                }
             }catch (FullGameException e){
                 e.printStackTrace();
             }

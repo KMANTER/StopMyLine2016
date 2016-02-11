@@ -24,17 +24,23 @@ public class User {
     public int rowCount;
     public int highestBlock;
 
-    public long lastUpdateTime;
+    public User(String name, String token){
+        this.name = name;
+        this.token = token;
+        this.rowCount = 0;
+        this.highestBlock = 0;
 
-    public User copy() {
-        User user = new User();
-
-        user.name = name;
-        user.token = token;
-        user.rowCount = 0;
-        user.highestBlock = 0;
-        user.lastUpdateTime = lastUpdateTime;
-
-        return user;
     }
+
+//    public User copy() {
+//        User user = new User();
+
+//        user.name = name;
+//        user.token = token;
+//        user.rowCount = 0;
+//        user.highestBlock = 0;
+//        user.lastUpdateTime = lastUpdateTime;
+
+//        return user;
+//    }
 }

@@ -43,10 +43,11 @@ public class StopMyLineApplication extends WebMvcConfigurerAdapter {
         Logger.getLogger(LOGGER_NAME).info("home()");
 
         HomeMessage homeMessage = new HomeMessage("Welcome to Tetris: Stop My Line server!");
-        homeMessage.addOperation("/connect/{name}", "Connect to the server as {name}");
-        homeMessage.addOperation("/users/{name}", "Get self as {name}");
-        homeMessage.addOperation("/users/{name}/game", "Game as {name}");
-        homeMessage.addOperation(DB_PATH, "Absolute path");
+        homeMessage.addOperation("/user/create/{name}", "Register to the server as {name}");
+        homeMessage.addOperation("/user/{name}", "Get self as {name}");
+        homeMessage.addOperation("/game/create", "Create a new Game");
+        homeMessage.addOperation("/game/check", "List of game available");
+        homeMessage.addOperation("/game/{gname}/user/{uname}", "{uname} join the game {gname}");
         return homeMessage;
     }
 
@@ -75,23 +76,16 @@ public class StopMyLineApplication extends WebMvcConfigurerAdapter {
     @RequestMapping("/game/create")
     @ResponseBody
     public TetrisGame createGame() throws IOException {
-        try{
-            TetrisGame game = gameHandler.createGame();
-            Logger.getLogger(LOGGER_NAME).info("game Found : " + game.gameName);
-            return game;
-        }catch(NoGameAvailableException e){
-            Logger.getLogger(e.getMessage());
-            return null;
-        }
+        TetrisGame game = gameHandler.createGame();
+        Logger.getLogger(LOGGER_NAME).info("game Found : " + game.gameName);
+        return game;
     }
 
     @RequestMapping("/game/check")
     @ResponseBody
     public List<TetrisGame> checkGame() throws IOException {
         try{
-            List<TetrisGame> games = gameHandler.findGame();
-
-            return game;
+            return gameHandler.findGame();
         }catch(NoGameAvailableException e){
             Logger.getLogger(e.getMessage());
             return null;
@@ -106,7 +100,6 @@ public class StopMyLineApplication extends WebMvcConfigurerAdapter {
             User player = gameHandler.findUser(uname);
 
             gameHandler.joinGame(player, game);
-
             return game;
         }catch(NoGameAvailableException e){
             Logger.getLogger(e.getMessage());

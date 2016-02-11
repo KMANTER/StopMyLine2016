@@ -4,7 +4,7 @@ public class SessionsManager {
 
 	public static User currSession;
 	
-	public static void setSession(User u ){
+	public static void setSession(User u){
 		currSession = u;
 	}
 	public static boolean isConnected(){
