@@ -130,7 +130,6 @@ public class GameEngine {
         throw new NoGameAvailableException("No game found");
     }
 
-
     public void joinGame(User player, TetrisGame game){
         if(!game.isFull()){
             try{

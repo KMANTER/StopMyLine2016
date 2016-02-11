@@ -6,10 +6,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.skm.stl.network.HttpCommunicationMngr;
 
 public class MenuScreen implements Screen{
 	  HttpCommunicationMngr requestManager;
@@ -54,8 +54,6 @@ public class MenuScreen implements Screen{
 		if (!Gdx.input.justTouched())
 			return false;
 		
-		// If this could possibly be slow, I could move it t...
-		// It won't be slow
 		cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 		
 		return r.contains(touchPoint.x, touchPoint.y);
@@ -162,10 +160,6 @@ public class MenuScreen implements Screen{
 			Assets.font.draw(batch, message2, 410, 360);			
 		}
 
-		
-
-		//mm_sprite.draw(batch);
-		
 		batch.end();
 	}
 
@@ -203,7 +197,4 @@ public class MenuScreen implements Screen{
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
-	}
-
-
-}
+	}}

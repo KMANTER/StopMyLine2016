@@ -3,7 +3,7 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 ext {
-    APP_GROUP = 'com.github.skmjbfd';
+    APP_GROUP = 'com.github.skmjbfd.stopmyline';
     APP_NAME = 'stop-my-line';
     APP_VERSION = '0.0.1';
 }
