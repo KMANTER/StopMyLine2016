@@ -134,7 +134,6 @@ public class GameEngine {
     public void joinGame(User player, TetrisGame game){
         if(!game.isFull()){
             try{
-                if(game.playerList.)
                 game.addPlayerToGame(player);
                 if(game.isFull()){
                     game.status = game.Status.Active;
