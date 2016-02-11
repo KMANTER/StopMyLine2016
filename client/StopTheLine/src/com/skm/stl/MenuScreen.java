@@ -74,7 +74,8 @@ public class MenuScreen implements Screen{
 	                	  errorMsg = "";
 	                	  us = new User();
 	                	  us.setName(texteSaisi);
-	                	  User existUser = requestManager.Connect(us);
+	                	  SessionsManager.setSession(us);
+	             /*   	  User existUser = requestManager.Connect(us);
 	                	  
 	                	  if(existUser != null){
 			                  SessionsManager.setSession(us);
@@ -84,6 +85,7 @@ public class MenuScreen implements Screen{
 	                		   errorMsg = "Utilisateur <"+texteSaisi+"> n'existe pas!";
 	                		   SessionsManager.cleanSession();
 	                	  }
+	                	  */
 	                  }
 	                 
 	                  @Override
@@ -103,7 +105,9 @@ public class MenuScreen implements Screen{
                 	  us.setName(texteSaisi);
                 	  requestManager.register(us);
                 	  
-                	  User registredUser = requestManager.Connect(us);
+                	  SessionsManager.setSession(us);
+                	  
+             /*   	  User registredUser = requestManager.Connect(us);
                 	  
                 	  if(registredUser != null){
 		                  SessionsManager.setSession(us);
@@ -113,6 +117,7 @@ public class MenuScreen implements Screen{
                 		   errorMsg = "probleme lors de l inscription !";
                 		   SessionsManager.cleanSession();
                 	  }
+                	  */
                   }
                  
                   @Override
