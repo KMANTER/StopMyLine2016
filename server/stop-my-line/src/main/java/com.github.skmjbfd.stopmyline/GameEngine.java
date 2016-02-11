@@ -136,7 +136,7 @@ public class GameEngine {
             try{
                 game.addPlayerToGame(player);
                 if(game.isFull()){
-                    game.status = game.Status.Active;
+                    game.status = TetrisGame.Status.Active;
                 }
             }catch (FullGameException e){
                 e.printStackTrace();
